@@ -109,7 +109,7 @@ Let’s deploy the application (plus a service for it) with the following YAML m
 Now that we have Prometheus installed and an application that exposes a custom metric, we also need to tell Prometheus to scrape the /metrics endpoint (BTW, this endpoint is automatically created by one of the libraries used in the app). 
 Therefore, we need to create a ServiceMonitor which is a custom resource definition from Prometheus, pointing “a source of metrics”.
 
-```kubectl apply -f prom-deploy.yaml```
+```kubectl apply -f prom-deployment.yaml```
 
 
 
