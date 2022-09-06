@@ -111,5 +111,99 @@ Therefore, we need to create a ServiceMonitor which is a custom resource definit
 
 ```kubectl apply -f prom-deployment.yaml```
 
+# Step 8:ServiceMonitor 
+
+What that basically does, is telling Prometheus to look for a service called “promtest” and scrape the metrics via the (default) endpoint /metrics on the http port (which is set to port 4000 in the Kubernetes service).The /metricsendpoint reports values like that:
+
+```curl --location--request GET'http://<EXTERNAL_IP_OF_SERVICE>:4000/metrics' | grep custom_metric```
+
+# Step 9: Validate metric from Prometheus
+
+When the ServiceMonitor has been applied, Prometheus will be able to discover the pods/endpoints behind the service and pull the corresponding metrics. In the web UI, you should be able to see the following “scrape target” Check prometheustargets and validate custom metric:
+
+```http://<EXTERNAL_IP_OF_PROMETHEUS_SERVICE>:9090/targets```
+
+# Step 10: Validate Grafana
+
+Time to test the environment! First, let’s see how the current metric looks like. Open Grafana an have a look at the Custom dashboard (you can find the JSON for the dashboard in the GitHub repo mentioned at the end of the post). You see, we have one pod running in the cluster reporting a value of “1” at the moment 
+
+Custom Dashboard:
+
+grafana-dashboard.json
+
+
+# Step 11: Validate api count
+
+If everything is set up correctly, we should be able to call our service on /api/count and set the custom metric via a POST request with a JSON document that looks like that:
+
+```curl--location --request POST'http://<EXTERNAL_IP_OF_SERVICE>:4000/api/count' \--header 'Content-Type:application/json' \--data-raw '{"count": 7}'```
+
+After setting the value via a POST request to “7”, Prometheus receives the updated value by scraping the metrics endpoint and Grafana isable to show the updated chart. To be able to execute the full example in the end on the basis of a “clean environment”, set the counter back to “1”.
+
+# Step 12: Prometheus Adapter
+
+So, now the adapter must be installed. Workshop will use the following implementation for this sample:
+
+https://github.com/DirectXMan12/k8s-prometheus-adapter
+
+The installation works quite smoothly, but you have to adapt a few small things for it.
+First you should clone the repository 
+```git clone https://github.com/DirectXMan12/k8s-prometheus-adapterChange```
+
+the URL for the Prometheus server in the file k8s-prometheus-adapter/deploy/manifests/custom-metrics-apiserver-deployment.yaml. 
+In the current case, this is 
+```http://<EXTERNAL_IP_OF_PROMETHEUS_SERVICE>:9090/```
+
+Furthermore, an additional rule for our custom metric must be defined in the ConfigMap, which defines the rules for mapping from Prometheus metrics to the Metrics API schema (k8s-prometheus-adapter/deploy/manifests/custom-metrics-config-map.yaml). 
+
+Overwrite the rule with the custom metric:
+
+custom-metrics-config-map.yaml
+
+In our case, only the query for custom_metric_counter_total_by_podis executed and the results are mappedto the metrics schema astotal/sumvalues.
+
+# Step 13: Create SSL Certificate
+
+To enable the adapter to function as a custom metrics API in the cluster, a SSL certificate must be created that can be used by the Prometheus adapter. All traffic from the Kubernetes control plane components to each other must be secured by SSL. This SSL certificate must be addedupfront as a secret in the cluster, so that the Custom Metrics Server can automatically map it as a volume during deployment.
+Clone cfssl under the k8s-prometheus-adapter folder.
+
+```git clone https://github.com/cloudflare/cfssl.git```
+```cd cfssl```
+```make```
+
+# Step 14: Run Certificate Generation
+
+Run generation script
+```bash ./gencerts.sh```
+
+# Step 15: Create metric server
+
+```kubectl create namespace custom-metrics```
+```kubectl apply -f cm-adapter-serving-certs.yaml -n custom-metrics```
+```kubectl apply -f deploy/manifests/```
+
+
+# Step 16: Horizontal Pod Scaler
+
+Now we need to deploy a Horizontal Pod Autoscaler that targets our app deployment and references the custom metric 
+
+code custom-metric-hpa.yaml
+
+```kubectlapply -f custom-metric-hpa.yaml```
+
+
+# Step 17: Trigger AutoScale
+
+Now that we have added the HPA manifest, we can make a new request against our API to increase the value of the counter back to “7”. Please keep in mind that the target value for the HPA was “3”. This means that the Horizotal Pod Autoscaler should scale our deployment to a total of three pods after a short amount of time. Let’s see what happens:
+
+```curl --location --request POST'http://<EXTERNAL_IP_OF_SERVICE>:4000/api/count' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "count": 7
+  }'```
+
+And last but not least, the Horizontal Pod Autoscalerdoes its job and scales the deployment the three podsValidate through Grafana
+
+```kubectl get events```
 
 
