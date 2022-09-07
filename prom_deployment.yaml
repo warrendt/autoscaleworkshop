@@ -12,8 +12,8 @@ spec:
         rollingUpdate:
            maxSurge: 1
            maxUnavailable: 1
-        revisionHistoryLimit: 3
-        minReadySeconds: 5
+    revisionHistoryLimit: 3
+    minReadySeconds: 5
     selector:
         matchLabels:
         application: promtest
