@@ -6,7 +6,6 @@ metadata:
         application: promtest
         service: api
 spec:
-
     replicas: 2
     strategy:
         type: RollingUpdate
@@ -15,30 +14,30 @@ spec:
            maxUnavailable: 1
         revisionHistoryLimit: 3
         minReadySeconds: 5
-selector:
-    matchLabels:
-    application: promtest
-    service: api
-template:
-    metadata:
-        labels:
+    selector:
+        matchLabels:
         application: promtest
         service: api
-    spec:
-    automountServiceAccountToken: false
-    containers:
-        -name: application
-        resources:
-        requests:
-            memory: "64Mi"
-            cpu: "100m"
-        limits:
-            memory: "256Mi"
-            cpu: "500m"
-        image: csaocpger/expressmonitoring:4.3
-        imagePullPolicy: IfNotPresent
-        ports:
-            - containerPort: 4000
+    template:
+        metadata:
+            labels:
+            application: promtest
+            service: api
+        spec:
+            automountServiceAccountToken: false
+            containers:
+            - name: application
+            resources:
+            requests:
+                memory: "64Mi"
+                cpu: "100m"
+            limits:
+                memory: "256Mi"
+                cpu: "500m"
+            image: csaocpger/expressmonitoring:4.3
+            imagePullPolicy: IfNotPresent
+            ports:
+                - containerPort: 4000
 ---
 apiVersion: v1
 kind: Service
