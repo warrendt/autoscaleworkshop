@@ -10,7 +10,7 @@ spec:
 minReplicas: 1
 maxReplicas: 10
 metrics:
-    -type: Pods
+    - type: Pods
     pods:
         metricName: custom_metric_counter_total_by_pod
         targetAverageValue: "3"
