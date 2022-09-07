@@ -105,8 +105,11 @@ As you can see in the sourcecode, a “Gauge” metric is created – which is o
 Here’s a list of what metrics are offered (description from the official documentation):
 
 Counter – a cumulative metric that represents a single monotonically increasing counter whose value can only increase or be reset to zero on restart
+
 Gauge – a gauge is a metric that represents a single numerical value that can arbitrarily go up and down
+
 Histogram – a histogram samples observations (usually things like request durations or response sizes) and counts them in configurable buckets. It also provides a sum of all observed values.
+
 Summary – Similar to a histogram, a summary samples observations (usually things like request durations and response sizes). While it also provides a total count of observations and a sum of all observed values, it calculates configurable quantiles over a sliding time window.
 
 Let’s deploy the application (plus a service for it) with the following YAML manifest:
