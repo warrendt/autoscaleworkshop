@@ -49,7 +49,7 @@ spec:
   ports:
   - name: http
     port: 4000
-      targetPort: 4000
+    targetPort: 4000
   selector:
     application: promtest
     service: api
