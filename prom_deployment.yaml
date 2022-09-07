@@ -6,14 +6,15 @@ metadata:
         application: promtest
         service: api
 spec:
-    minReadySeconds: 5
+
     replicas: 2
     strategy:
         type: RollingUpdate
         rollingUpdate:
            maxSurge: 1
            maxUnavailable: 1
-    revisionHistoryLimit: 3
+        revisionHistoryLimit: 3
+        minReadySeconds: 5
 selector:
     matchLabels:
     application: promtest
