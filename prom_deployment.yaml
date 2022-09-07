@@ -65,5 +65,5 @@ spec:
   selector:
     matchLabels:
       application: promtest
-   endpoints: 
-   - port: http
+  endpoints: 
+  - port: http
