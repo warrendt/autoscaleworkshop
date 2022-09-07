@@ -204,15 +204,13 @@ code custom-metric-hpa.yaml
 
 # Step 17: Trigger AutoScale
 
-Now that we have added the HPA manifest, we can make a new request against our API to increase the value of the counter back to “7”. Please keep in mind that the target value for the HPA was “3”. This means that the Horizotal Pod Autoscaler should scale our deployment to a total of three pods after a short amount of time. Let’s see what happens:
+Now that we have added the HPA manifest, we can make a new request against our API to increase the value of the counter back to “7”. Please keep in mind that the target value for the HPA was “3”. This means that the Horizotal Pod Autoscaler should scale our deployment to a total of three pods after a short amount of time. 
+Let’s see what happens:
 
-```curl --location --request POST'http://<EXTERNAL_IP_OF_SERVICE>:4000/api/count' \```
-```--header 'Content-Type: application/json' \```
-```--data-raw '{```
-```  "count": 7```
-```  }'```
+```curl --location --request POST'http://<EXTERNAL_IP_OF_SERVICE>:4000/api/count' --header 'Content-Type: application/json' --data-raw '{ "count": 7 }'```
 
-And last but not least, the Horizontal Pod Autoscalerdoes its job and scales the deployment the three podsValidate through Grafana
+And last but not least, the Horizontal Pod Autoscaler does its job and scales the deployment the three pods
+Validate through Grafana
 
 ```kubectl get events```
 
