@@ -9,10 +9,10 @@ spec:
     minReadySeconds: 5
     replicas: 2
     strategy:
-    type: 
-    RollingUpdaterollingUpdate:
-    maxSurge: 1
-    maxUnavailable: 1
+        type: RollingUpdate
+        rollingUpdate:
+           maxSurge: 1
+           maxUnavailable: 1
     revisionHistoryLimit: 3
 selector:
     matchLabels:
