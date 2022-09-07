@@ -189,8 +189,11 @@ Run generation script
 # Step 15: Create metric server
 
 ```kubectl create namespace custom-metrics```
+
 ```kubectl apply -f cm-adapter-serving-certs.yaml -n custom-metrics```
+
 ```kubectl apply -f deploy/manifests/```
+
 
 
 # Step 16: Horizontal Pod Scaler
