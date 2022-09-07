@@ -51,7 +51,7 @@ We will finish our example by stopping the user load.
 In the terminal where we created the container with busybox image, terminate the load generation by typing "Ctrl+C".
 Then we will verify the result state (after a minute or so):
 
-```kubectlget hpa```
+```kubectl get hpa```
 
 Cooldown of scaling events
 As the horizontal pod autoscaler checks the Metrics API every 30 seconds, previous scale events may not have successfully completed before another check is made. This behavior could cause the horizontal pod autoscaler to change the number of replicas before the previous scale event could receive application workload and the resource demands to adjust accordingly.
