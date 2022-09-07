@@ -77,8 +77,10 @@ from within the cloned repo...
 # Step 6: Public access to Grafana and Prometheus
 
 ```kubectl edit svc service_name -n namespace```
-```i -to edit the service```
-```ESC, :wq -update your service```
+
+```i - to edit the service```
+
+```ESC, :wq - update your service```
 
 Change type LoadBalancer
 Remove status : loadbalancer: {}
