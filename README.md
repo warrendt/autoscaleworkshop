@@ -122,7 +122,7 @@ Therefore, we need to create a ServiceMonitor which is a custom resource definit
 
 What that basically does, is telling Prometheus to look for a service called “promtest” and scrape the metrics via the (default) endpoint /metrics on the http port (which is set to port 4000 in the Kubernetes service).The /metricsendpoint reports values like that:
 
-```curl --location--request GET'http://<EXTERNAL_IP_OF_SERVICE>:4000/metrics' | grep custom_metric```
+```curl --location --request GET 'http://<EXTERNAL_IP_OF_SERVICE>:4000/metrics' | grep custom_metric```
 
 # Step 9: Validate metric from Prometheus
 
@@ -138,12 +138,11 @@ Custom Dashboard:
 
 grafana-dashboard.json
 
-
 # Step 11: Validate api count
 
 If everything is set up correctly, we should be able to call our service on /api/count and set the custom metric via a POST request with a JSON document that looks like that:
 
-```curl--location --request POST'http://<EXTERNAL_IP_OF_SERVICE>:4000/api/count' \--header 'Content-Type:application/json' \--data-raw '{"count": 7}'```
+```curl --location --request POST 'http://<EXTERNAL_IP_OF_SERVICE>:4000/api/count' \--header 'Content-Type:application/json' \--data-raw '{"count": 7}'```
 
 After setting the value via a POST request to “7”, Prometheus receives the updated value by scraping the metrics endpoint and Grafana isable to show the updated chart. To be able to execute the full example in the end on the basis of a “clean environment”, set the counter back to “1”.
 
