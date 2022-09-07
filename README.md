@@ -66,11 +66,12 @@ Now, to make the desired metric available to the Horizontal Pod Autoscaler, it m
 To install Prometheus, workshop chose “kube-prometheus” (https://github.com/coreos/kube-prometheus) which installs Prometheus as well as Grafana (and Alertmanager etc.) and is super easy to use! 
 So first, clone the project to your local machine and deploy it to your cluster:
 
-```git clone https://github.com/coreos/kube-prometheus#```
+```git clone https://github.com/coreos/kube-prometheus```
 
 from within the cloned repo...
 
 ```kubectl apply -f manifests/setup```
+
 ```kubectl apply -f manifests/```
 
 # Step 6: Public access to Grafana and Prometheus
