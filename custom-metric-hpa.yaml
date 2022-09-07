@@ -7,9 +7,9 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: promdemo
-   minReplicas: 1
-   maxReplicas: 10
-   metrics:
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
   - type: Pods
     pods:
       metricName: custom_metric_counter_total_by_pod
