@@ -33,7 +33,7 @@ We will start a container, and send an infinite loop of queriesto the php-apache
 
 Hit enter for command prompt 
 
-```while true; do wget -q -O-http://php-apache; done```
+```while true; do wget -q -O - http://php-apache; done```
 
 Within a minute or so, we should see the higher CPU load by executing:
 
