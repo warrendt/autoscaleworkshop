@@ -16,8 +16,8 @@ spec:
   minReadySeconds: 5
   selector:
     matchLabels:
-    application: promtest
-    service: api
+      application: promtest
+      service: api
   template:
     metadata:
       labels:
