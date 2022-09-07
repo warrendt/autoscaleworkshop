@@ -115,7 +115,7 @@ Therefore, we need to create a ServiceMonitor which is a custom resource definit
 
 ```kubectl apply -f prom-deployment.yaml```
 
-# Step 8:ServiceMonitor 
+# Step 8: ServiceMonitor 
 
 What that basically does, is telling Prometheus to look for a service called “promtest” and scrape the metrics via the (default) endpoint /metrics on the http port (which is set to port 4000 in the Kubernetes service).The /metricsendpoint reports values like that:
 
