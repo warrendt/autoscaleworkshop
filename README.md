@@ -154,10 +154,14 @@ https://github.com/DirectXMan12/k8s-prometheus-adapter
 
 The installation works quite smoothly, but you have to adapt a few small things for it.
 First you should clone the repository 
-```git clone https://github.com/DirectXMan12/k8s-prometheus-adapterChange```
+```git clone https://github.com/DirectXMan12/k8s-prometheus-adapter```
 
-the URL for the Prometheus server in the file k8s-prometheus-adapter/deploy/manifests/custom-metrics-apiserver-deployment.yaml. 
+Change the URL for the Prometheus server in the file 
+
+k8s-prometheus-adapter/deploy/manifests/custom-metrics-apiserver-deployment.yaml. 
+
 In the current case, this is 
+
 ```http://<EXTERNAL_IP_OF_PROMETHEUS_SERVICE>:9090/```
 
 Furthermore, an additional rule for our custom metric must be defined in the ConfigMap, which defines the rules for mapping from Prometheus metrics to the Metrics API schema (k8s-prometheus-adapter/deploy/manifests/custom-metrics-config-map.yaml). 
@@ -166,7 +170,7 @@ Overwrite the rule with the custom metric:
 
 custom-metrics-config-map.yaml
 
-In our case, only the query for custom_metric_counter_total_by_podis executed and the results are mappedto the metrics schema astotal/sumvalues.
+In our case, only the query for custom_metric_counter_total_by_podis executed and the results are mapped to the metrics schema astotal/sumvalues.
 
 # Step 13: Create SSL Certificate
 
@@ -195,18 +199,18 @@ Now we need to deploy a Horizontal Pod Autoscaler that targets our app deploymen
 
 code custom-metric-hpa.yaml
 
-```kubectlapply -f custom-metric-hpa.yaml```
+```kubectl apply -f custom-metric-hpa.yaml```
 
 
 # Step 17: Trigger AutoScale
 
 Now that we have added the HPA manifest, we can make a new request against our API to increase the value of the counter back to “7”. Please keep in mind that the target value for the HPA was “3”. This means that the Horizotal Pod Autoscaler should scale our deployment to a total of three pods after a short amount of time. Let’s see what happens:
 
-```curl --location --request POST'http://<EXTERNAL_IP_OF_SERVICE>:4000/api/count' \
---header 'Content-Type: application/json' \
---data-raw '{
-  "count": 7
-  }'```
+```curl --location --request POST'http://<EXTERNAL_IP_OF_SERVICE>:4000/api/count' \```
+```--header 'Content-Type: application/json' \```
+```--data-raw '{```
+```  "count": 7```
+```  }'```
 
 And last but not least, the Horizontal Pod Autoscalerdoes its job and scales the deployment the three podsValidate through Grafana
 
